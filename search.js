@@ -18,21 +18,21 @@ const search = async word => {
 };
 
 const showResults = data => {
-  let resultsArray = data.results;
-  let showSome = resultsArray[0].lexicalEntries;
+  let { results } = data;
+  let { provider } = data.metadata;
+  let { lexicalEntries } = results[0];
 
-  console.log("\n");
+  console.log("Definition of the word:\n");
 
-  for (let entry of showSome) {
-    //let type = entry.lexicalCategory;
+  for (let entry of lexicalEntries) {
     let { lexicalCategory } = entry;
-    let shortDef = entry.entries[0].senses[0].short_definitions[0];
-    let text = entry.text;
+    let [shortDef, ...rest] = entry.entries[0].senses[0].short_definitions;
+    let { text } = entry;
 
     console.log(`${text} (${lexicalCategory})\n1. ${shortDef}\n\n`);
   }
 
-  console.log(`Provided by ${data.metadata.provider}`);
+  console.log(`Provided by ${provider}`);
 };
 
 module.exports = search;
